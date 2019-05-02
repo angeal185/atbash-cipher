@@ -1,30 +1,30 @@
 // hex-xor demo
 _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
 
-function test(testStr, iterations, conf){
+function test(testStr, key){
 
   // callback
-  atbash.enc(testStr, iterations, conf, function(err, i){
+  atbash.shift(testStr, key, true, function(err, i){
     if(err){return console.log(err)}
     $('#callbackenc').val(i.data)
 
-    atbash.dec(i.data, i.key, i.iterations, conf, function(err,res){
+    atbash.shift(i.data, key, false, function(err,res){
       if(err){return console.log(err)}
       $('#callbackdec').val(res.data)
     })
   })
 
   //sync
-  let encSync = atbash.encSync(testStr, iterations, conf);
+  let encSync = atbash.shiftSync(testStr, key, true);
   $('#syncenc').val(encSync.data)
-  let decSync = atbash.decSync(encSync.data, encSync.key, encSync.iterations, conf);
+  let decSync = atbash.shiftSync(encSync.data, key, false);
   $('#syncdec').val(decSync.data)
 
   // promise
-  atbash.encP(testStr, iterations, conf).then(function(res) {
+  atbash.shiftP(testStr, key, true).then(function(res) {
     $('#promiseenc').val(res.data);
 
-    atbash.decP(res.data, res.key, res.iterations, conf).then(function(res) {
+    atbash.shiftP(res.data, key, false).then(function(res) {
       $('#promisedec').val(res.data);
     }).catch(function(err){
       console.log(err)
@@ -49,30 +49,20 @@ inputTpl = _.template('<div class="col-sm-6"><div class="form-group"><label>{{ti
 bodyConf = {
   header:['callback', 'sync', 'promise'],
   input: {dec: 'decode', enc: 'encode'},
-  test: ['string', 'hex']
+  test: ['string', 'hex', 'key']
 };
 
 $('body').append(
   div.clone().addClass('container').append(
     $('<h2 />', {
       class:'mt-4 mb-4',
-      text:'hex-permutation-cipher'
+      text:'atbash-cipher'
     }),
-    div.clone().addClass('row demo').append(
-      inputTpl({title: 'config', ID:'config'}),
-      inputTpl({title: 'iterations', ID:'iteration'})
-    )
+    div.clone().addClass('row demo')
   )
 )
 
 $(document).ready(function() {
-  let defaults = {
-    reverse:true,
-    lower:true,
-    buff:[1,2]
-  };
-
-  $('#config').val(JSON.stringify(defaults))
 
   _.forEach(bodyConf.test, function(i){
     $('.demo').append(inputTpl({title: i, ID: i}))
@@ -83,7 +73,7 @@ $(document).ready(function() {
     _.forIn(bodyConf.input, function(key,val){
       $('.' + i).after(inputTpl({title: key, ID: i + val}))
     })
-    $('.' + i).siblings('div').find('input').not('#config,#iteration,#string').attr('readonly', true)
+    $('.' + i).siblings('div').find('input').not('#string').attr('readonly', true)
   })
 
   $('#string').on('keyup', function(){
@@ -93,22 +83,9 @@ $(document).ready(function() {
   })
 
   $('#hex').on('keyup', function(){
-    console.log($(this).val())
-    test($(this).val(), parseInt($('#iteration').val()), JSON.parse($('#config').val()))
-  })
-
-  $('#iteration').attr({
-    type: 'number',
-    value: 1,
-    min: 0,
-    max: 15,
-    step: 1
-  }).on('change', function(){
-    $(this).val(_.round($(this).val()))
-    $('#hex').keyup();
-  }).on('keyup', function(){
-    $(this).val(_.round($(this).val()))
-    $('#hex').keyup();
+    let encKey = atbash.keygen('ABCDEF01234567890')
+    test($(this).val(), encKey)
+    $('#key').val(encKey)
   })
 
 });
