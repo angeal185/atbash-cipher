@@ -1,0 +1,23 @@
+{
+  "name": "atbash-cipher",
+  "description": "atbash cipher in javascript for nodejs and the browser",
+  "main": "index.js",
+  "authors": [
+    "ben eaves"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "atbash",
+    "cipher",
+    "encryption",
+    "decryption",
+    "nodejs",
+    "encryption-decryption"
+  ],
+  "homepage": "https://github.com/angeal185/atbash-cipher",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "atbash-cipher",
+  "version": "1.0.0",
+  "description": "atbash cipher in javascript for nodejs and the browser",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angeal185/atbash-cipher.git"
+  },
+  "keywords": [
+    "atbash",
+    "cipher",
+    "encryption",
+    "decryption",
+    "nodejs",
+    "encryption-decryption"
+  ],
+  "author": "ben eaves",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/angeal185/atbash-cipher/issues"
+  },
+  "homepage": "https://github.com/angeal185/atbash-cipher#readme"
+}
