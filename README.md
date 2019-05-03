@@ -61,7 +61,7 @@ atbash.shift(data, key, enc, cb) //returns callback
  *  @param {string} key ~ shift key
  *  @param {boolean} enc ~ true = encrypt | false = decrypt
  **/
-atbash.decSync(data, key, enc) //returns a string
+atbash.shiftSync(data, key, enc) //returns a string
 
 /**
  *  promise
@@ -69,7 +69,7 @@ atbash.decSync(data, key, enc) //returns a string
  *  @param {string} key ~ shift key
  *  @param {boolean} enc ~ true = encrypt | false = decrypt
  **/
-atbash.encP(data, key, enc) //returns a promise
+atbash.shiftP(data, key, enc) //returns a promise
 
 
 // demo
